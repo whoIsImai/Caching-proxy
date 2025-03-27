@@ -9,8 +9,9 @@ public class Proxy{
     private readonly proxyConfig _config;
     private const int ttl = 60;
 
-    public Proxy(RequestDelegate next, Cache cache){
+    public Proxy(RequestDelegate next, proxyConfig config, Cache cache){
         _next = next;
+        _config = config;
         _client = new HttpClient();
         _cache = cache;
     }
