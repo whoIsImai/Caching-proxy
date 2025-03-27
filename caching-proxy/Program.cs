@@ -25,7 +25,7 @@ public class Program
         var host = Host.CreateDefaultBuilder()
             .ConfigureServices(services => {
                 services.AddSingleton(new Cache(Environment.GetEnvironmentVariable("AWS_ELASTIC_CACHE_ENDPOINT")))
-                services.AddSingleton(new Proxy(targetUrl));
+                services.AddSingleton(new proxyConfig(targetUrl));
                 })
             .ConfigureWebHostDefaults(webbuilder =>{
                 webbuilder.Configure(app => app.UseMiddleware<Proxy>());
