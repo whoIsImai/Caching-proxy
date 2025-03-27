@@ -14,9 +14,14 @@ public class Program
         Env.Load();
 
         var port = 3000;
+        var targetUrl = "";
+
         Parser.Default.ParseArguments<Options>(args)
-            .WithParsed<Options>(o => port = o.Port);
-        Console.WriteLine(Environment.GetEnvironmentVariable("AWS_ELASTIC_CACHE_ENDPOINT"));
+            .WithParsed<Options>(o =>{
+                 port = o.Port
+                 targetUrl = o.TargetUrl;
+                 });
+       
         var host = Host.CreateDefaultBuilder()
             .ConfigureServices(services =>services.AddSingleton(new Cache(Environment.GetEnvironmentVariable("AWS_ELASTIC_CACHE_ENDPOINT"))))
             .ConfigureWebHostDefaults(webbuilder =>{
@@ -31,5 +36,8 @@ public class Program
     class Options{
         [Option('p', "port", Required = false, Default = 3000, HelpText = "Port to listen on")]
         public int Port { get; set; }
+
+        [Option('t', "target", Required = true, HelpText = "The target server URL to forward requests to")]
+        public string TargetUrl { get; set; }
     }
 }
