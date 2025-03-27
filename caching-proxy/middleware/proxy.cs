@@ -15,7 +15,7 @@ public class Proxy{
     }
 
     public async Task Invoke(HttpContext context){
-        var key = context.Request.Path;
+        var key = context.Request.Path + context.Request.QueryString;
         var cachedResponse = await _cache.GetCacheResponseAsync(key);
         if(cachedResponse != null){
             context.Response.Headers.Add("X-Cache", "HIT");

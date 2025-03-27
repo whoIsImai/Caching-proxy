@@ -9,12 +9,10 @@ public class Cache{
     }
 
     public async Task<string> GetCacheResponseAsync(string key){
-        var db = _redis.GetDatabase();
-        return await db.StringGetAsync(key);
+        return await _redis.StringGetAsync(key);
     }
 
     public async Task SetCacheResponseAsync(string key, string value, int ttl){
-        var db = _redis.GetDatabase();
-        await db.StringSetAsync(key, value, expiry: Timestamp.FromSeconds(ttl));
+        await _redis.StringSetAsync(key, value, Timestamp.FromSeconds(ttl));
     }
 }
