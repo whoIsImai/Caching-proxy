@@ -5,18 +5,20 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using CommandLine;
+using System;
 
 public class Program
 {
     public static void Main(string[] args)
     {
         Env.Load();
-        Console.WriteLine("Starting caching proxy server...");
+
+
         var port = 3000;
         Parser.Default.ParseArguments<Options>(args)
             .WithParsed<Options>(o => port = o.Port);
-
-        var host = host.CreateDefaultBuilder()
+        Console.WriteLine(Environment.GetEnvironmentVariable("AWS_ELASTIC_CACHE_ENDPOINT"));
+        var host = Host.CreateDefaultBuilder()
             .ConfigureServices(services =>services.AddSingleton(new Cache(Environment.GetEnvironmentVariable("AWS_ELASTIC_CACHE_ENDPOINT"))))
             .ConfigureWebHostDefaults(webbuilder =>{
                 webbuilder.Configure(app => app.UseMiddleware<Proxy>());
