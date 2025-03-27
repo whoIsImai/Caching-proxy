@@ -6,6 +6,7 @@ public class Proxy{
     private readonly RequestDelegate _next;
     private readonly HttpClient _client;
     private readonly Cache _cache;
+    private readonly proxyConfig _config;
     private const int ttl = 60;
 
     public Proxy(RequestDelegate next, Cache cache){
