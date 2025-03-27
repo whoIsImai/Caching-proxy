@@ -18,7 +18,7 @@ public class Proxy{
         var key = context.Request.Path + context.Request.QueryString;
         var cachedResponse = await _cache.GetCacheResponseAsync(key);
         if(cachedResponse != null){
-            context.Response.Headers.Add("X-Cache", "HIT");
+            context.Response.Headers["X-Cache"] = "HIT";
             await context.Response.WriteAsync(cachedResponse);
             return;
         }
@@ -27,7 +27,7 @@ public class Proxy{
         var responseString = await response.Content.ReadAsStringAsync();
 
         if(response.IsSuccessStatusCode){
-        context.Response.Headers.Add("X-Cache", "MISS");
+        context.Response.Headers["X-Cache"]=  "MISS";
         await _cache.SetCacheResponseAsync(key, responseString, ttl);
         }
         await context.Response.WriteAsync(responseString);
