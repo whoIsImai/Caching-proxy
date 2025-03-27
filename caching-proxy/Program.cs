@@ -22,7 +22,9 @@ public class Program
                 webbuilder.Configure(app => app.UseMiddleware<Proxy>());
                 webbuilder.UseUrls($"http://localhost:{port}");
             })
+            
             .Build();
+
             host.Run();
     }
     class Options{

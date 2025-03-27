@@ -8,11 +8,11 @@ public class Cache{
         _redis = connection.GetDatabase();
     }
 
-    public async Task<string> GetCacheResponseAsync(string key){
+    public async Task<string?> GetCacheResponseAsync(string key){
         return await _redis.StringGetAsync(key);
     }
 
     public async Task SetCacheResponseAsync(string key, string value, int ttl){
-        await _redis.StringSetAsync(key, value, Timestamp.FromSeconds(ttl));
+        await _redis.StringSetAsync(key, value, expiry: new System.TimeSpan(0, 0, ttl));
     }
 }
