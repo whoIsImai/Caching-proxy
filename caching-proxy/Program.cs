@@ -13,7 +13,6 @@ public class Program
     {
         Env.Load();
 
-
         var port = 3000;
         Parser.Default.ParseArguments<Options>(args)
             .WithParsed<Options>(o => port = o.Port);
