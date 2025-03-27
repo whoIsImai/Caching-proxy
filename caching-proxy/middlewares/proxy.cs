@@ -25,7 +25,8 @@ public class Proxy{
             return;
         }
 
-        var response = await _client.GetAsync("http://localhost:5000" + key);
+        var targetUrl = _config._TargetUrl + context.Request.Path + context.Request.QueryString;
+        var response = await _client.GetAsync(targetUrl);
         var responseString = await response.Content.ReadAsStringAsync();
 
         if(response.IsSuccessStatusCode){
