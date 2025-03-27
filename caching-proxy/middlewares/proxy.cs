@@ -32,8 +32,12 @@ public class Proxy{
         if(response.IsSuccessStatusCode){
         context.Response.Headers["X-Cache"]=  "MISS";
         await _cache.SetCacheResponseAsync(key, responseString, ttl);
-        }
         await context.Response.WriteAsync(responseString);
         context.Response.StatusCode = (int)response.StatusCode;
+        } else{
+            context.Response.Headers["X-Cache"] = "ERROR";
+            context.Response.StatusCode = (int)response.StatusCode;
+            await context.Response.WriteAsync("Error: " + response.ReasonPhrase);
+        }
     }
 }
