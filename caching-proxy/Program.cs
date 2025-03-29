@@ -18,13 +18,13 @@ public class Program
 
         Parser.Default.ParseArguments<Options>(args)
             .WithParsed<Options>(o =>{
-                 port = o.Port
+                 port = o.Port;
                  targetUrl = o.TargetUrl;
                  });
        
         var host = Host.CreateDefaultBuilder()
             .ConfigureServices(services => {
-                services.AddSingleton(new Cache(Environment.GetEnvironmentVariable("AWS_ELASTIC_CACHE_ENDPOINT")))
+                services.AddSingleton(new Cache("localhost:6379"));
                 services.AddSingleton(new proxyConfig(targetUrl));
                 })
             .ConfigureWebHostDefaults(webbuilder =>{
